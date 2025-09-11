@@ -7,3 +7,5 @@ terraform {
     encrypt        = true
   }
 }
+
+# need to add dynamodb table as i think the reason this works is bc its connecting one ive initialised before

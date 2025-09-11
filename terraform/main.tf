@@ -8,6 +8,4 @@ module "vpc" {
     subnet4_cidr_block = var.subnet4_cidr_block
     az1 = var.az1
     az2 = var.az2
-
-    
 }

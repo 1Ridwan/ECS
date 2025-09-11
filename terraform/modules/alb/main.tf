@@ -3,7 +3,9 @@ resource "aws_lb" "main" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = [for subnet in aws_subnet.public : subnet.id]
+  region = "eu-west-2"
+
+  subnets            = [for subnet in aws_subnet.public : subnet.id] # need to create this list
 
   enable_deletion_protection = true
 
@@ -14,6 +16,6 @@ resource "aws_lb" "main" {
   }
 
   tags = {
-    Environment = "production"
+    name = "main"
   }
 }
