@@ -51,3 +51,17 @@ resource "aws_subnet" "private-az2" {
     Name = "private"
   }
 }
+
+
+
+# -------------------------------
+
+
+resource "aws_subnet" "map" {
+  for_each    = { for subnet in var.subnet_objects : subnet.name => subnet }
+   vpc_id     = aws_vpc.main.id
+
+  tags = {
+    Name = each.key
+  }
+}
