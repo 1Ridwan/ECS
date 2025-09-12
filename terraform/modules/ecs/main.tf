@@ -33,7 +33,7 @@ resource "aws_ecs_task_definition" "app_task" {
   network_mode             = "awsvpc"
   cpu                      = 1024
   memory                   = 2048
-  container_definitions    = <<TASK_DEFINITION # this needs to be updated
+  container_definitions    = <<TASK_DEFINITION # this needs to be updated with container name output var and aws account id, and ecr repo
 [
   {
     "name": "container-name",

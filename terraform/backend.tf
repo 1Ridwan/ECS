@@ -3,7 +3,7 @@ terraform {
     bucket         = "terraform-state-ridwan-ecs"
     key            = "terraform.tfstate"
     region         = "eu-west-2"
-    dynamodb_table = "terraform-locks"
+    dynamodb_table = "terraform-locks-ecs-project"
     encrypt        = true
   }
 }
