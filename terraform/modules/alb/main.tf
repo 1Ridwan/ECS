@@ -9,12 +9,6 @@ resource "aws_lb" "main" {
 
   enable_deletion_protection = true
 
-  access_logs {
-    bucket  = aws_s3_bucket.lb_logs.id
-    prefix  = "test-lb"
-    enabled = true
-  }
-
   tags = {
     name = "main"
   }
