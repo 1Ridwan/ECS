@@ -2,9 +2,8 @@ resource "aws_lb" "main" {
   name               = "main-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.lb_sg.id]
-  region = "eu-west-2"
-
+  security_groups    = [aws_security_group.lb_sg.id] # to be updated with correct list
+  region = var.vpc_region
   subnets            = [for subnet in aws_subnet.public : subnet.id] # need to create this list
 
   enable_deletion_protection = true

@@ -3,5 +3,5 @@ output "alb_arn" {
 }
 
 output "alb_ip" {
-    value = aws.lb.main.alb_ip
+    value = aws_lb.main.ip
 }
