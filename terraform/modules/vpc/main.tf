@@ -9,11 +9,14 @@ resource "aws_vpc" "main" {
   }
 }
 
-# create public subnets
+# create subnets
 
-resource "aws_subnet" "map" {
+resource "aws_subnet" "set" {
   for_each    = { for subnet in var.subnet_objects : subnet.name => subnet }
-   vpc_id     = aws_vpc.main.id
+  vpc_id     = aws_vpc.main.id
+  cidr_block = each.value.cidr_block
+  availability_zone = each.value.availability_zone
+  map_public_ip_on_launch = each.value.map_public_ip_on_launch
 
   tags = {
     Name = each.key

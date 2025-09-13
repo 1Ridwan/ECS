@@ -4,3 +4,4 @@ module "vpc" {
     vpc_region = var.vpc_region
     subnet_objects = var.subnet_objects
 }
+

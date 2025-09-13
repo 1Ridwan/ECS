@@ -3,9 +3,9 @@ variable "vpc_region" { type = string }
 
 variable "subnet_objects" {
 type = list(object({
-    vpc = string
     cidr_block = string
     availability_zone = string
+    map_public_ip_on_launch = bool
     name = string
   }))
 }
