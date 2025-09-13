@@ -2,9 +2,11 @@ resource "aws_lb" "main" {
   name               = "main-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.lb_sg.id] # to be updated with correct list
+  security_groups    = var.alb_sg # to be updated with correct list
   region = var.vpc_region
-  subnets            = [for subnet in aws_subnet.public : subnet.id] # need to create this list
+
+  subnets = var.public_subnets_ids
+
 
   enable_deletion_protection = true
 
@@ -20,12 +22,12 @@ resource "aws_lb_target_group" "ecs" {
   name     = "alb-target-group"
   port     = 80
   protocol = "TCP"
-  vpc_id   = aws_vpc.main.id
+  vpc_id   = var.vpc_id
 
   health_check {
     healthy_threshold = "2"
-    internal = "30"
-    path - "/"
+    interval = "30"
+    path = "/"
     port = "80"
     protocol = "HTTP"
 
