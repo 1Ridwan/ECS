@@ -6,9 +6,7 @@ resource "aws_lb" "main" {
   region = var.vpc_region
 
   subnets = var.public_subnets_ids
-
-
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   tags = {
     name = "main"
@@ -21,7 +19,7 @@ resource "aws_lb" "main" {
 resource "aws_lb_target_group" "ecs" {
   name     = "alb-target-group"
   port     = 80
-  protocol = "TCP"
+  protocol = "HTTP"
   vpc_id   = var.vpc_id
 
   health_check {

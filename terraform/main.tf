@@ -3,6 +3,7 @@ module "vpc" {
     vpc_cidr_block = var.vpc_cidr_block
     vpc_region = var.vpc_region
     subnet_objects = var.subnet_objects
+
 }
 
 module "alb" {
@@ -18,4 +19,18 @@ module "sg" {
     source = "./modules/sg"
     vpc_id = module.vpc.vpc_id
     vpc_cidr_block = var.vpc_cidr_block
+}
+
+module "routes" {
+    source = "./modules/routes"
+    public_subnet_ids = module.vpc.public_subnet_ids
+    vpc_id = module.vpc.vpc_id
+    igw_id = module.vpc.igw_id
+}
+
+
+
+module "ecr" {
+    source = "./modules/ecr"
+    
 }
