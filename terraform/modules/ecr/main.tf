@@ -10,21 +10,23 @@ resource "aws_ecr_repository" "main" {
 resource "aws_ecr_lifecycle_policy" "my_policy" {
   repository = aws_ecr_repository.main.name
 
-  policy = jsonencode({
-    rules = [
-      {
-        rule_priority = 1
-        description   = "Keep only latest 3 images"
-        selection     = {
-          count_type        = "sinceImagePushed"
-          count_number      = 3
-          tag_status        = "any"
-          # tag_prefix_list   = ["prod"]
-        }
-        action = {
-          type = "expire"
-        }
-      }
-    ]
-  })
-}
+    policy = <<EOF
+  {
+      "rules": [
+          {
+              "rulePriority": 1,
+              "description": "Expire images older than 14 days",
+              "selection": {
+                  "tagStatus": "untagged",
+                  "countType": "sinceImagePushed",
+                  "countUnit": "days",
+                  "countNumber": 14
+              },
+              "action": {
+                  "type": "expire"
+              }
+          }
+      ]
+  }
+  EOF
+  }

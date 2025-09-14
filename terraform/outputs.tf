@@ -28,5 +28,5 @@ output "target_group_arn" {
 
 
 output "ecs_service_sg_id" {
-    value = module.sg.ecs_task_sg_id
+    value = module.sg.ecs_service_sg_id
 }
