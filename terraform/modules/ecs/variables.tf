@@ -1,11 +1,11 @@
 variable "app-task" { type = string }
 variable "alb_target_group_arn" { type = string }
 
-variable "subnet_objects" {
-type = list(object({
-    cidr_block = string
-    availability_zone = string
-    map_public_ip_on_launch = bool
-    name = string
-  }))
+variable "private_subnet_ids" { type = list(string) }
+
+variable "ecs_service_sg_id" { type = string }
+
+variable "ecr_repo_url" {
+    type = string
+    description = "the url of the ecr repository holding the container images"
 }

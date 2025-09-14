@@ -8,6 +8,7 @@ resource "aws_ecs_service" "main" {
   task_definition = aws_ecs_task_definition.app_task.arn
   desired_count   = 2
   launch_type = "FARGATE"
+
   iam_role        = aws_iam_role.foo.arn # to be updated with iam_role
   depends_on      = [aws_iam_role_policy.foo] # to be updated with iam_role_policy
 
@@ -18,8 +19,8 @@ resource "aws_ecs_service" "main" {
   }
 
    network_configuration {
-    subnets = [var.subnet_objects]
-    security_groups = [var.ecs_service_security_groups] # create security group for ECS to only allow traffic from ALB?
+    subnets = [var.private_subnet_ids]
+    security_groups = [var.ecs_service_sg_id]
    }
 }
 
