@@ -37,6 +37,7 @@ resource "aws_ecs_task_definition" "app_task" {
   family                   = "main"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn = aws_iam_role.ecs_task_execution_role.arn
 
   network_mode             = "awsvpc"
   cpu                      = 1024
@@ -53,7 +54,7 @@ resource "aws_ecs_task_definition" "app_task" {
 container_definitions = jsonencode([
     {
       name      = "app-container"
-      image     = "public.ecr.aws/d9g0t4r4/main-ecr:main-image"
+      image     = "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image"
       # executionRoleArn = ${aws_iam_role.ecs_task_execution_role.arn}
       portMappings = [
         {
@@ -63,9 +64,6 @@ container_definitions = jsonencode([
       ]
     }
   ])
-
-
-
 
 }
 

@@ -28,7 +28,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "main"
+    Name = "main-igw"
   }
 }
 
@@ -39,7 +39,7 @@ resource "aws_nat_gateway" "public1" {
   subnet_id     = var.public_subnet_ids[0]
 
   tags = {
-    Name = "gw NAT"
+    Name = "NAT-gw-az1" # need to configure this properly so its automatic detect which az, using subnet map
   }
   }
 
@@ -48,11 +48,9 @@ resource "aws_nat_gateway" "public1" {
   subnet_id     = var.public_subnet_ids[1]
 
   tags = {
-    Name = "gw NAT"
+    Name = "NAT-gw-az2" # need to configure this properly so its automatic detect which az, using subnet map
   }
 
-  # To ensure proper ordering, it is recommended to add an explicit dependency
-  # on the Internet Gateway for the VPC.
   depends_on = [aws_internet_gateway.main]
 }
 
