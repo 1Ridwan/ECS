@@ -43,7 +43,7 @@ resource "aws_ecs_task_definition" "app_task" {
   memory                   = 2048
 
   runtime_platform {
-    operating_system_family = "WINDOWS_SERVER_2019_CORE"
+    operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
   } 
 
@@ -53,7 +53,8 @@ resource "aws_ecs_task_definition" "app_task" {
 container_definitions = jsonencode([
     {
       name      = "app-container"
-      image     = "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image"
+      image     = "public.ecr.aws/d9g0t4r4/main-ecr:main-image"
+      # executionRoleArn = ${aws_iam_role.ecs_task_execution_role.arn}
       portMappings = [
         {
           containerPort = 80
