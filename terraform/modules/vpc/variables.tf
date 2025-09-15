@@ -9,3 +9,5 @@ type = list(object({
     name = string
   }))
 }
+
+variable "public_subnet_ids" { type = list(string )}

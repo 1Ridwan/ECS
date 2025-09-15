@@ -15,6 +15,17 @@ output "private_subnet_ids" {
 output "igw_id" {
     value = aws_internet_gateway.main.id
 }
+
+output "nat_gateway_id_one" {
+    value = aws_nat_gateway.public1.id
+}
+
+output "nat_gateway_id_two" {
+    value = aws_nat_gateway.public2.id
+}
+
+
+
 # example below:
 
 #    value = [for a in var.objects : upper(a) if substr(a,0,5) != "lower"]

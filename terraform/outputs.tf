@@ -10,6 +10,10 @@ output "public_subnet_ids" {
     value = module.vpc.public_subnet_ids
 }
 
+output "private_subnet_ids" {
+    value = module.vpc.private_subnet_ids
+}
+
 output "ecr_repo_url" {
     value = module.ecr.ecr_repo_url
 }
@@ -29,4 +33,16 @@ output "target_group_arn" {
 
 output "ecs_service_sg_id" {
     value = module.sg.ecs_service_sg_id
+}
+
+output "ecr_name" {
+    value = module.ecr.ecr_name 
+}
+
+output "nat_gateway_id_one" {
+    value = module.vpc.nat_gateway_id_one
+}
+
+output "nat_gateway_id_two" {
+    value = module.vpc.nat_gateway_id_two
 }

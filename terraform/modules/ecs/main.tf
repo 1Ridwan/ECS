@@ -9,18 +9,19 @@ resource "aws_ecs_service" "main" {
   desired_count   = 2
   launch_type = "FARGATE"
 
-  iam_role        = aws_iam_role.foo.arn # to be updated with iam_role
-  depends_on      = [aws_iam_role_policy.foo] # to be updated with iam_role_policy
+  # iam_role        = aws_iam_role.foo.arn # to be updated with iam_role
+  # depends_on      = [aws_iam_role_policy.foo] # to be updated with iam_role_policy
 
   load_balancer {
-    target_group_arn = var.alb_target_group_arn
-    container_name   = "mongo" # to be updated with the container name
+    target_group_arn = var.target_group_arn
+    container_name   = "app-container" # to be updated with the container name
     container_port   = 80 # to be updated with container port
   }
 
    network_configuration {
-    subnets = [var.private_subnet_ids]
+    subnets = [var.private_subnet_ids[0], var.private_subnet_ids[1]]
     security_groups = [var.ecs_service_sg_id]
+    assign_public_ip = false
    }
 }
 
@@ -30,23 +31,69 @@ resource "aws_ecs_service" "main" {
 
 
 
+
+
 resource "aws_ecs_task_definition" "app_task" {
-  family                   = "test"
+  family                   = "main"
   requires_compatibilities = ["FARGATE"]
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+
   network_mode             = "awsvpc"
   cpu                      = 1024
   memory                   = 2048
-  container_definitions    = <<TASK_DEFINITION # this needs to be updated with container name output var and aws account id, and ecr repo
-[
-  {
-    "name": "app-container",
-    "image": "${var.ecr_repo_url}:latest"
-  }
-]
-TASK_DEFINITION
 
   runtime_platform {
     operating_system_family = "WINDOWS_SERVER_2019_CORE"
     cpu_architecture        = "X86_64"
-  }
+  } 
+
+
+#     #"image": "${var.ecr_repo_uri}/${var.ecr_name}:main-image"
+
+container_definitions = jsonencode([
+    {
+      name      = "app-container"
+      image     = "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image"
+      portMappings = [
+        {
+          containerPort = 80
+          hostPort      = 80
+        }
+      ]
+    }
+  ])
+
+
+
+
+}
+
+
+
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name = "ecs-task-execution-role"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  
+  
+  assume_role_policy = jsonencode({
+    
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

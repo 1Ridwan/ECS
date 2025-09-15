@@ -31,3 +31,35 @@ resource "aws_internet_gateway" "main" {
     Name = "main"
   }
 }
+
+# Create NAT gateway in public subnets
+
+resource "aws_nat_gateway" "public1" {
+  allocation_id = aws_eip.one.id
+  subnet_id     = var.public_subnet_ids[0]
+
+  tags = {
+    Name = "gw NAT"
+  }
+  }
+
+  resource "aws_nat_gateway" "public2" {
+  allocation_id = aws_eip.two.id
+  subnet_id     = var.public_subnet_ids[1]
+
+  tags = {
+    Name = "gw NAT"
+  }
+
+  # To ensure proper ordering, it is recommended to add an explicit dependency
+  # on the Internet Gateway for the VPC.
+  depends_on = [aws_internet_gateway.main]
+}
+
+resource "aws_eip" "one" {
+  domain   = "vpc"
+}
+
+resource "aws_eip" "two" {
+  domain   = "vpc"
+}

@@ -1,5 +1,5 @@
-variable "app-task" { type = string }
-variable "alb_target_group_arn" { type = string }
+
+variable "target_group_arn" { type = string }
 
 variable "private_subnet_ids" { type = list(string) }
 
@@ -9,3 +9,5 @@ variable "ecr_repo_url" {
     type = string
     description = "the url of the ecr repository holding the container images"
 }
+
+variable "ecr_name" { type = string }

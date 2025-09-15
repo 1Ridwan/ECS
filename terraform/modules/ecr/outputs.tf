@@ -10,4 +10,6 @@ output "ecr_registry_id" {
     value = aws_ecr_repository.main.registry_id
 }
 
-
+output "ecr_name" {
+    value = aws_ecr_repository.main.name
+}
