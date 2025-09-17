@@ -4,7 +4,7 @@ data "aws_route53_zone" "primary" {
 
 
 resource "aws_route53_record" "www" {
-  zone_id = aws_route53_zone.primary.zone_id
+  zone_id = data.aws_route53_zone.primary.zone_id
   name    = "ridwanprojects.com"
   type    = "A"
 
@@ -14,3 +14,8 @@ resource "aws_route53_record" "www" {
     evaluate_target_health = true
   }
 }
+
+###
+
+
+

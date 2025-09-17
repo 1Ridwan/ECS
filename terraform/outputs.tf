@@ -46,3 +46,21 @@ output "nat_gateway_id_one" {
 output "nat_gateway_id_two" {
     value = module.vpc.nat_gateway_id_two
 }
+
+# alb outputs for route53 use
+
+output "alb_dns_name" {
+    value = module.alb.alb_dns_name
+}
+
+output "alb_zone_id" {
+    value = module.alb.alb_zone_id
+}
+
+
+
+output "certificate_dvos" {
+    value = [module.acm.certificate_dvos]
+}
+
+
