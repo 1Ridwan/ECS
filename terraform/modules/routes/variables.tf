@@ -1,4 +1,4 @@
-variable "public_subnet_ids" { type = list(string) }
+variable "public_subnet_ids" { type = set(string) }
 variable "private_subnet_ids" { type = list(string) }
 variable "igw_id" { type = string } 
 variable "vpc_id" { type = string } 

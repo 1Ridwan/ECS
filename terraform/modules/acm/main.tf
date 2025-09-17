@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "main_certificate" {
-  domain_name       = "example.com"
+  domain_name       = "ridwanprojects.com"
   validation_method = "DNS"
 
   tags = {

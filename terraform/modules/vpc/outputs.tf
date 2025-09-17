@@ -2,8 +2,11 @@ output "vpc_id" {
     value = aws_vpc.main.id
 }
 
-output "public_subnet_ids" {
+output "public_subnets" {
+    value = [for k, v in aws_subnet.set : aws_subnet.set[k] if aws_subnet.set[k].map_public_ip_on_launch == true]
+}
 
+output "public_subnet_ids" {
     value = [for k, v in aws_subnet.set : aws_subnet.set[k].id if aws_subnet.set[k].map_public_ip_on_launch == true]
 }
 

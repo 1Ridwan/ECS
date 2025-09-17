@@ -4,3 +4,8 @@ variable "alb_sg" { type = list(string) }
 
 
 variable "public_subnets_ids" { type = list(string) }
+
+variable "certificate_arn" {
+    type = string
+    description = "arn of the TLS certificate created for my domain"
+}

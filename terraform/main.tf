@@ -12,6 +12,7 @@ module "alb" {
     vpc_id = module.vpc.vpc_id
     vpc_region = var.vpc_region
     alb_sg = [module.sg.alb_sg_id]
+    certificate_arn = module.acm.certificate_arn
 
     public_subnets_ids = module.vpc.public_subnet_ids
 }

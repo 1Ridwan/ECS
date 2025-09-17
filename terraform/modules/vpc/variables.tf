@@ -7,6 +7,7 @@ type = list(object({
     availability_zone = string
     map_public_ip_on_launch = bool
     name = string
+    subnet_id = string
   }))
 }
 

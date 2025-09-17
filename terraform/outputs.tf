@@ -6,6 +6,10 @@ output "alb_sg" {
     value = module.sg.alb_sg_id
 }
 
+output "public_subnets" {
+    value = module.vpc.public_subnets
+}
+
 output "public_subnet_ids" {
     value = module.vpc.public_subnet_ids
 }
@@ -64,3 +68,8 @@ output "certificate_dvos" {
 }
 
 
+# acm outputs
+
+output "certificate_arn" {
+    value = module.acm.certificate_arn
+}
