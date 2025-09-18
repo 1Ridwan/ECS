@@ -1,10 +1,9 @@
 module "vpc" {
     source = "./modules/vpc"
-    vpc_cidr_block = var.vpc_cidr_block
+    vpc_cidr = var.base_cidr
     vpc_region = var.vpc_region
-    subnet_objects = var.subnet_objects
-    public_subnet_ids = module.vpc.public_subnet_ids
-
+    availability_zones = var.availability_zones
+    subnet_count = var.subnet_count
 }
 
 module "alb" {
@@ -14,13 +13,13 @@ module "alb" {
     alb_sg = [module.sg.alb_sg_id]
     certificate_arn = module.acm.certificate_arn
 
-    public_subnets_ids = module.vpc.public_subnet_ids
+    public_subnet_ids = module.vpc.public_subnet_ids
 }
 
 module "sg" {
     source = "./modules/sg"
     vpc_id = module.vpc.vpc_id
-    vpc_cidr_block = var.vpc_cidr_block
+    vpc_cidr_block = var.base_cidr
 }
 
 module "routes" {

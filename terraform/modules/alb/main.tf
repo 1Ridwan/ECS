@@ -5,7 +5,7 @@ resource "aws_lb" "main" {
   security_groups    = var.alb_sg # to be updated with correct list
   region = var.vpc_region
 
-  subnets = var.public_subnets_ids
+  subnets = var.public_subnet_ids
   enable_deletion_protection = false
 
   tags = {

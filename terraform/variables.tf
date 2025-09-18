@@ -1,4 +1,5 @@
-variable "vpc_cidr_block" { type = string }
+variable "base_cidr" { type = string }
+
 variable "vpc_region" { type = string }
 
 variable "subnet_objects" {
@@ -9,4 +10,11 @@ type = list(object({
     name = string
     subnet_id = string
   }))
+}
+
+variable "availability_zones" { type = list(string) }
+
+variable "subnet_count" {
+  type = number
+  description = "(optional) describe your variable"
 }

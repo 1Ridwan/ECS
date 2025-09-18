@@ -19,7 +19,7 @@ resource "aws_ecs_service" "main" {
   }
 
    network_configuration {
-    subnets = [var.private_subnet_ids[0], var.private_subnet_ids[1]]
+    subnets = var.private_subnet_ids # should use var.pvt_subnet_index_1 / 2
     security_groups = [var.ecs_service_sg_id]
     assign_public_ip = false
    }
