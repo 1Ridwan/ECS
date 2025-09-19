@@ -26,6 +26,13 @@ jobs:
    steps:
      - name: Checkout the repository to the runner
        uses: actions/checkout@v5
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
  
      - name: Setup Terraform with specified version on the runner
        uses: hashicorp/setup-terraform@v2
@@ -49,34 +56,9 @@ jobs:
 
      - name: Terraform plan
        id: plan
-       run: terraform plan -no-color -input=false
+       run: terraform plan
        continue-on-error: true
-    
-     - uses: actions/github-script@v6
-       env:
-         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-       with:
-         script: |
-           const output = `#### Terraform Format and Style 🖌\`
-           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-           #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-           #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
- 
-           <details><summary>Show Plan</summary>
- 
-           \`\`\`\n
-           ${process.env.PLAN}
-           \`\`\`
- 
-           </details>
-           *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
- 
-           github.rest.issues.createComment({
-             issue_number: context.issue.number,
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             body: output
-           })
+
  
      - name: Terraform Plan Status
        if: steps.plan.outcome == 'failure'
