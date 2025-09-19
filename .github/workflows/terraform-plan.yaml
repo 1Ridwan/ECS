@@ -2,7 +2,7 @@ name: "Terraform Plan Pipeline"
  
 on:
   workflow_run:
-    workflows: ["Build and Push Docker Image"]
+    workflows: ["Build Docker Image and Deploy to Amazon ECR"]
     types:
       - completed
  
