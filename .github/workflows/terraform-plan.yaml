@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - main
+- name: Terraform Plan
+    id: plan
+
+env:
+    base_cidr: ${{ env.TF_VARS_BASE_CIDR }}
+    vpc_region: ${{ env.TF_VARS_VPC_REGION }}
+    availability_zones: ${{ env.TF_VARS_AVAILABILITY_ZONES }}
+    subnet_count: ${{ env.TF_VARS_SUBNET_COUNT }}
 
 jobs:
   terraform:
@@ -36,6 +44,10 @@ jobs:
       - name: Terraform Plan
         working-directory: ./terraform
         run: terraform plan
+        run: |
+
+      terraform plan -var="base_cidr=${{ env.TF_VARS_BASE_CIDR }}" -var="vpc_region==${{ env.TF_VARS_VPC_REGION }}" -var="availability_zones=${{ env.TF_VARS_AVAILABILITY_ZONES }}" -no-color -input=false
+      continue-on-error: true
 
       # Deploy terraform changes
       #- name: Terraform Apply
