@@ -34,7 +34,7 @@ jobs:
 
       # Execute the terraform plan
       - name: Terraform Plan
-        working-directory: ./app
+        working-directory: ./terraform
         run: terraform plan
 
       # Deploy terraform changes
