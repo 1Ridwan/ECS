@@ -30,7 +30,7 @@ jobs:
       # Initialize terraform
       - name: Initialize Terraform
         working-directory: ./terraform
-        run: cd ./terraform terraform init
+        run: terraform init
 
       # Execute the terraform plan
       - name: Terraform Plan
