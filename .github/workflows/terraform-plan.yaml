@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-- name: Terraform Plan
-    id: plan
 
 env:
     base_cidr: ${{ env.TF_VARS_BASE_CIDR }}
