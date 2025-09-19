@@ -20,12 +20,13 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       # Configures your AWS access by using the credentials stored in GitHub Secrets
+
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
         with:
-          aws-access-key-id: ${ { secrets.AWS_ACCESS_KEY_ID } }
-          aws-secret-access-key: ${ { secrets.AWS_SECRET_ACCESS_KEY } }
-          aws-region: "eu-west-2"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
       # Initialize terraform
       - name: Initialize Terraform
