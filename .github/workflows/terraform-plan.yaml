@@ -29,10 +29,12 @@ jobs:
 
       # Initialize terraform
       - name: Initialize Terraform
-        run: terraform init
+        working-directory: ./terraform
+        run: cd ./terraform terraform init
 
       # Execute the terraform plan
       - name: Terraform Plan
+        working-directory: ./app
         run: terraform plan
 
       # Deploy terraform changes
