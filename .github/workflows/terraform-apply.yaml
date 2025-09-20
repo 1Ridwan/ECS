@@ -1,23 +1,24 @@
 name: Terraform Apply and Deploy to ECS
 
+#on:
+ # workflow_run:
+  #  workflows: ["Terraform Plan"]
+   # branches: [main]
+    #types:
+     # - completed
 
 on:
-  workflow_run:
-    workflows: ["Terraform Plan"]
-    branches: [main]
-    types: 
-      - completed
-
-# TODO: make these values not readable, use secrets
+  workflow_dispatch:
+   branches:
+     - main
+     
 env:
-  # S3 bucket for the Terraform state
-  BUCKET_TF_STATE: "terraform-state-ridwan-ecs" #${{ secrets.BUCKET_TF_STATE}}
-
+  BUCKET_TF_STATE: "terraform-state-ridwan-ecs"
   AWS_REGION: "eu-west-2"
   ECR_REPOSITORY: "main-ecr"
   ECS_SERVICE: "web-app"
   ECS_CLUSTER: "ecs-main"
-  ECS_TASK_DEFINITION: "aws/task-definition.json" # path to Amazon ECS task definition
+  ECS_TASK_DEFINITION: ".aws/task-definition.json" # path to Amazon ECS task definition
   CONTAINER_NAME: "app-container"
 
 jobs:
@@ -33,15 +34,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Pull latest version of my code from the GitHub repository
       - name: Checkout code
         uses: actions/checkout@v5
 
-      # Install Terraform on the GitHub runner
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.2
 
-      # Configures AWS access by using the credentials stored in GitHub Secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
         with:
@@ -49,12 +49,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "eu-west-2"
 
-      # Initialise terraform
       - name: Initialise Terraform
         working-directory: ./terraform
         run: terraform init
 
-     - name: Terraform Apply
+      - name: Terraform Apply
         working-directory: ./terraform
         run: terraform apply -auto-approve
 
