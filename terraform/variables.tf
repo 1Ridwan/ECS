@@ -1,9 +1,13 @@
 variable "base_cidr" {
   type = string
+  default = "10.0.0.0/24"
   description = "(optional) describe your variable"
 }
 
-variable "vpc_region" { type = string }
+variable "vpc_region" { 
+  type = string
+  default = vpc_region = "eu-west-2" 
+  }
 
 variable "availability_zones" { 
   type = list(string) 
