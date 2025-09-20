@@ -1,39 +1,30 @@
 name: Terraform Apply
 
-#on:
- # workflow_run:
-  #  workflows: ["Terraform Plan"]
-   # branches: [main]
-    #types:
-     # - completed
-
+# wait for terraform plan pipeline to complete
 on:
   workflow_dispatch:
-   branches:
-     - main
-
+  workflow_run:
+    workflows: ["Terraform Plan"]
+    branches: [main]
+    types: [completed]
 
 jobs:
-  on-success:
-    name: Check if Terraform plan was successful
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-      - run: echo 'The Terraform Plan workflow passed'
-
   terraform:
     name: Terraform Apply
     runs-on: ubuntu-latest
 
     steps:
+      # Pulls latest version of code from GitHub repository
       - name: Checkout code
         uses: actions/checkout@v5
 
+      # Installs Terraform on the GitHub runner
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
 
+      # Configures AWS access by using the credentials stored in GitHub Secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
         with:
@@ -41,10 +32,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "eu-west-2"
 
+      # Initialise terraform
       - name: Initialise Terraform
         working-directory: ./terraform
         run: terraform init
 
+      # Execute terraform apply and create resources
       - name: Terraform Apply
         working-directory: ./terraform
         run: terraform apply -auto-approve

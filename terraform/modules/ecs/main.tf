@@ -43,7 +43,18 @@ resource "aws_ecs_task_definition" "app_task" {
 
 #     #"image": "${var.ecr_repo_uri}/${var.ecr_name}:main-image"
 
-container_definitions = file("../../../aws/task-definition.json")
+container_definitions = jsonencode([
+    {
+      name      = "app-container"
+      image     = "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image"
+      portMappings = [
+        {
+          containerPort = 80
+          hostPort      = 80
+        }
+      ]
+    }
+  ])
 
 }
 
