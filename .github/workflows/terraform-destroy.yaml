@@ -39,4 +39,17 @@ jobs:
       # Execute terraform destroy and tear down resources
       - name: Terraform Destroy
         working-directory: ./terraform
+        run: |
+          terraform destroy -auto-approve \
+          -target=module.acm \
+          -target=module.alb \
+          -target=module.ecs \
+          -target=module.iam \
+          -target=module.route53 \
+          -target=module.routes \
+          -target=module.sg \
+          -target=module.vpc
+# (omit -target=module.ecr)
+
+
         run: terraform destroy -auto-approve
