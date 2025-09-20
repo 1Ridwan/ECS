@@ -1,4 +1,4 @@
-variable "base_cidr" { type = string }
+variable "base_cidr" { type = string } # break up with cidrsubnet
 
 variable "vpc_region" { type = string }
 
