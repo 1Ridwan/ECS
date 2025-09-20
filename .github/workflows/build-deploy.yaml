@@ -11,7 +11,7 @@ jobs:
   verify-plan:
     name: Verify triggering conditions
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success') }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - run: echo "Terraform Apply workflow has passed => Proceeding with deploy"
 
