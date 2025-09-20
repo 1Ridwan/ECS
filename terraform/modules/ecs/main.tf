@@ -12,7 +12,7 @@ resource "aws_ecs_service" "main" {
   load_balancer {
     target_group_arn = var.target_group_arn
     container_name   = "app-container" # to be updated with the container name
-    container_port   = 80 # to be updated with container port
+    container_port   = 8080
   }
 
    network_configuration {
