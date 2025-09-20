@@ -1,9 +1,9 @@
 resource "aws_ecs_cluster" "main" {
-  name = "ecs-main"
+  name = "ecs-cluster"
 }
 
 resource "aws_ecs_service" "main" {
-  name            = "web-app"
+  name            = "web-app-service"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.app_task.arn
   desired_count   = 2
@@ -11,7 +11,7 @@ resource "aws_ecs_service" "main" {
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "app-container" # to be updated with the container name
+    container_name   = "vscode-container" # to be updated with the container name
     container_port   = 8080
   }
 
@@ -42,7 +42,7 @@ resource "aws_ecs_task_definition" "app_task" {
 
 container_definitions = jsonencode([
     {
-      name      = "app-container"
+      name      = "vscode-container"
       image     = "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image"
       portMappings = [
         {

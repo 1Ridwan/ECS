@@ -6,7 +6,7 @@
             "essential": true,
             "image": "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image",
             "mountPoints": [],
-            "name": "app-container",
+            "name": "vscode-container",
             "portMappings": [
                 {
                     "containerPort": 8080,
