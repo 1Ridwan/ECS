@@ -46,8 +46,8 @@ container_definitions = jsonencode([
       image     = "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image"
       portMappings = [
         {
-          containerPort = 80
-          hostPort      = 80
+          containerPort = 8080
+          hostPort      = 8080
         }
       ]
     }
