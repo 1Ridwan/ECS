@@ -6,7 +6,7 @@ variable "base_cidr" {
 
 variable "vpc_region" { 
   type = string
-  default = vpc_region = "eu-west-2" 
+  default = "eu-west-2" 
   }
 
 variable "availability_zones" { 
