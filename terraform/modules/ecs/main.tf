@@ -43,7 +43,7 @@ resource "aws_ecs_task_definition" "app_task" {
 container_definitions = jsonencode([
     {
       name      = "vscode-container"
-      image     = "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image"
+      image     = "${(var.ecr_repo_url)}:latest"
       portMappings = [
         {
           containerPort = 8080
