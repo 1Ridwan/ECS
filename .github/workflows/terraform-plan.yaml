@@ -41,7 +41,7 @@ jobs:
             availability_zones: ${{ env.TF_VARS_AVAILABILITY_ZONES }}
             subnet_count: ${{ env.TF_VARS_SUBNET_COUNT }}
         run: |
-          terraform plan -var-file=terraform.tfvars -no-color -input=false
+          terraform plan -var="base_cidr=${{ env.TF_VARS_BASE_CIDR }}" -var="vpc_region==${{ env.TF_VARS_VPC_REGION }}" -var="availability_zones=${{ env.TF_VARS_AVAILABILITY_ZONES }}" -var="subnet_count=${{ env.TF_VARS_SUBNET_COUNT }}" -no-color -input=false
         continue-on-error: true
 
       # Deploy terraform changes
