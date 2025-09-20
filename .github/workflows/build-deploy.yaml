@@ -5,8 +5,7 @@
 name: Build Docker Image and Deploy to Amazon ECR
 
 on:
- workflow_dispatch:
- push:
+  workflow_dispatch:
    branches:
      - main
 
