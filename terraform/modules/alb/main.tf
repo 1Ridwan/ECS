@@ -26,8 +26,8 @@ resource "aws_lb_target_group" "ecs" {
   health_check {
     healthy_threshold = "2"
     interval = "30"
-    path = "/"
-    port = "80"
+    path = "/healthz"
+    port = "8080"
     protocol = "HTTP"
 
   }
@@ -37,7 +37,7 @@ resource "aws_lb_target_group" "ecs" {
 
 resource "aws_lb_listener" "front_end_http" {
   load_balancer_arn = aws_lb.main.arn
-  port              = "80"
+  port              = "8080"
   protocol          = "HTTP"
 
   default_action {
@@ -51,27 +51,6 @@ resource "aws_lb_listener" "front_end_http" {
   }
 }
 
-
-resource "aws_lb_listener_rule" "redirect_http_to_https" {
-  listener_arn = aws_lb_listener.front_end_http.arn
-  priority = 1
-
-  action {
-    type = "redirect"
-
-    redirect {
-      port = "443"
-      protocol = "HTTPS"
-      status_code = "HTTP_301"
-    }
-  }
-
-  condition {
-    path_pattern {
-      values = ["/*"]
-    }
-  }
-}
 
 # HTTPS listener
 
