@@ -1,4 +1,7 @@
-variable "base_cidr" { type = string } # break up with cidrsubnet
+variable "base_cidr" {
+  type = string
+  description = "(optional) describe your variable"
+}
 
 variable "vpc_region" { type = string }
 
