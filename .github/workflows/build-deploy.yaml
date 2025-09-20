@@ -24,7 +24,7 @@ jobs:
     env:
       AWS_REGION: "eu-west-2"
       ECR_REPOSITORY: "main-ecr"
-      ECS_TASK_DEFINITION: ".aws/task-definition.json"
+      ECS_TASK_DEFINITION: "aws/task-definition.json"
       CONTAINER_NAME: "app-container"
       ECS_SERVICE: "web-app"
       ECS_CLUSTER: "ecs-main"
