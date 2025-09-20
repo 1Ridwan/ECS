@@ -9,9 +9,6 @@ resource "aws_ecs_service" "main" {
   desired_count   = 2
   launch_type = "FARGATE"
 
-  # iam_role        = aws_iam_role.foo.arn # to be updated with iam_role
-  # depends_on      = [aws_iam_role_policy.foo] # to be updated with iam_role_policy
-
   load_balancer {
     target_group_arn = var.target_group_arn
     container_name   = "app-container" # to be updated with the container name

@@ -1,12 +1,10 @@
 name: Terraform Apply
 
-# wait for terraform plan pipeline to complete
+# dev views terraform plan workflow then manually triggers this workflow
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Terraform Plan"]
-    branches: [main]
-    types: [completed]
+   branches:
+     - main
 
 jobs:
   terraform:

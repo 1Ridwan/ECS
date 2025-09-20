@@ -49,7 +49,7 @@ jobs:
           -target=module.routes \
           -target=module.sg \
           -target=module.vpc
-# (omit -target=module.ecr)
+        # (omit -target=module.ecr) to preserve outside of terraform
 
 
         run: terraform destroy -auto-approve
