@@ -55,7 +55,6 @@ container_definitions = jsonencode([
     {
       name      = "app-container"
       image     = "241661649258.dkr.ecr.eu-west-2.amazonaws.com/main-ecr:main-image"
-      # executionRoleArn = ${aws_iam_role.ecs_task_execution_role.arn}
       portMappings = [
         {
           containerPort = 80
@@ -68,13 +67,12 @@ container_definitions = jsonencode([
 }
 
 
+# TODO: move these to iam module
 
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "ecs-task-execution-role"
 
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  
+  # Terraform's "jsonencode" function converts a Terraform expression result to valid JSON syntax.
   
   assume_role_policy = jsonencode({
     

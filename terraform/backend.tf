@@ -5,3 +5,5 @@ terraform {
     region         = "eu-west-2"
   }
 }
+
+# TODO: enable native state locking

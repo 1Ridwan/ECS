@@ -1,4 +1,4 @@
-name: Terraform Apply and Deploy to ECS
+name: Terraform Apply
 
 #on:
  # workflow_run:
@@ -11,15 +11,7 @@ on:
   workflow_dispatch:
    branches:
      - main
-     
-env:
-  BUCKET_TF_STATE: "terraform-state-ridwan-ecs"
-  AWS_REGION: "eu-west-2"
-  ECR_REPOSITORY: "main-ecr"
-  ECS_SERVICE: "web-app"
-  ECS_CLUSTER: "ecs-main"
-  ECS_TASK_DEFINITION: ".aws/task-definition.json" # path to Amazon ECS task definition
-  CONTAINER_NAME: "app-container"
+
 
 jobs:
   on-success:
@@ -56,19 +48,3 @@ jobs:
       - name: Terraform Apply
         working-directory: ./terraform
         run: terraform apply -auto-approve
-
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
-
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
