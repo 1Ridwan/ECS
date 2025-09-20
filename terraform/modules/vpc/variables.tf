@@ -1,4 +1,4 @@
-variable "vpc_cidr" { type = string }
+variable "base_cidr" { type = string }
 
 variable "vpc_region" { type = string }
 
