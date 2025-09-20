@@ -1,8 +1,4 @@
 {
-    "compatibilities": [
-        "EC2",
-        "FARGATE"
-    ],
     "containerDefinitions": [
         {
             "cpu": 0,
@@ -28,35 +24,13 @@
     "memory": "2048",
     "networkMode": "awsvpc",
     "placementConstraints": [],
-    "registeredAt": "2025-09-20T14:35:58.757Z",
-    "registeredBy": "arn:aws:iam::241661649258:user/terraform-learn",
-    "requiresAttributes": [
-        {
-            "name": "com.amazonaws.ecs.capability.ecr-auth"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.task-iam-role"
-        },
-        {
-            "name": "ecs.capability.execution-role-ecr-pull"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-        },
-        {
-            "name": "ecs.capability.task-eni"
-        }
-    ],
     "requiresCompatibilities": [
         "FARGATE"
     ],
-    "revision": 16,
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "status": "ACTIVE",
-    "taskDefinitionArn": "arn:aws:ecs:eu-west-2:241661649258:task-definition/main:16",
     "taskRoleArn": "arn:aws:iam::241661649258:role/ecs-task-execution-role",
     "volumes": [],
     "tags": []
