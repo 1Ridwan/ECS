@@ -5,9 +5,10 @@
 name: Build Docker Image and Deploy to Amazon ECR
 
 on:
-  workflow-dispatch:
-    branches:
-      - main
+ workflow_dispatch:
+ push:
+   branches:
+     - main
 
 # TODO: make these values not readable, use secrets
 env:
