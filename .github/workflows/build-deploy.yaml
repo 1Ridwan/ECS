@@ -5,10 +5,10 @@
 name: Build Docker Image and Deploy to Amazon ECR
 
 on:
-  push:
-    workflow-dispatch:
-      branches:
-        - main
+  workflow-dispatch:
+    branches:
+      - main
+
 # TODO: make these values not readable, use secrets
 env:
   AWS_REGION: "eu-west-2"                  # set this to your preferred AWS region, e.g. us-west-1

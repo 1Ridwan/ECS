@@ -8,8 +8,6 @@ on:
 
 # TODO: make these values not readable, use secrets
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   # S3 bucket for the Terraform state
   BUCKET_TF_STATE: "terraform-state-ridwan-ecs" #${{ secrets.BUCKET_TF_STATE}}
 
@@ -17,51 +15,53 @@ env:
   ECR_REPOSITORY: "main-ecr"          # set this to your Amazon ECR repository name
   ECS_SERVICE: "web-app"                # set this to your Amazon ECS service name
   ECS_CLUSTER: "ecs-main"                # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
+  ECS_TASK_DEFINITION: .aws/task-definision.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: "app-container"          # set this to the name of the container in the
                                                # containerDefinitions section of your task definition 
 
 jobs:
- terraform:
-   name: "Terraform Infrastructure Change Management"
-   runs-on: ubuntu-latest
-   defaults:
-     run:
-       shell: bash
-       # We keep Terraform files in the terraform directory.
-       working-directory: ./terraform
- 
-   steps:
-     - name: Checkout the repository to the runner
-       uses: actions/checkout@v5
- 
-     - name: Setup Terraform with specified version on the runner
-       uses: hashicorp/setup-terraform@v2
-       with:
-         terraform_version: 1.6.0
+  terraform:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
 
-     - name: Terraform init
-       id: init
-       run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+    steps:
+      # Pulls the latest version of your code from the GitHub repository
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      # Installs Terraform on the GitHub runner
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Configures your AWS access by using the credentials stored in GitHub Secrets
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "eu-west-2"
+
+      # Initialize terraform
+      - name: Initialize Terraform
+        working-directory: ./terraform
+        run: terraform init
 
      - name: Terraform Apply
        run: terraform apply -auto-approve
 
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
 
-
-#      - name: Fill in the new image ID in the Amazon ECS task definition
- #       id: task-def
-  #      uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
-   #     with:
-    #      task-definition: ${{ env.ECS_TASK_DEFINITION }}
-     #     container-name: ${{ env.CONTAINER_NAME }}
-      #    image: ${{ steps.build-image.outputs.image }}
-#
- #     - name: Deploy Amazon ECS task definition
-  #      uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
-   #     with:
-    #      task-definition: ${{ steps.task-def.outputs.task-definition }}
-     #     service: ${{ env.ECS_SERVICE }}
-      #    cluster: ${{ env.ECS_CLUSTER }}
-       #   wait-for-service-stability: true
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true

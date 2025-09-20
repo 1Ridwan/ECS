@@ -51,13 +51,35 @@ resource "aws_lb_listener" "front_end_http" {
   }
 }
 
+
+resource "aws_lb_listener_rule" "redirect_http_to_https" {
+  listener_arn = aws_lb_listener.front_end_http.arn
+  priority = 1
+
+  action {
+    type = "redirect"
+
+    redirect {
+      port = "443"
+      protocol = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+
+  condition {
+    path_pattern {
+      values = ["/*"]
+    }
+  }
+}
+
 # HTTPS listener
 
 resource "aws_lb_listener" "front_end_https" {
   load_balancer_arn = aws_lb.main.arn
   port              = "443"
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08" # need output from ssl policy
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = var.certificate_arn
 
   default_action {
