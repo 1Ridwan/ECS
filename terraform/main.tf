@@ -1,6 +1,6 @@
 module "vpc" {
     source = "./modules/vpc"
-    vpc_cidr = var.base_cidr
+    base_cidr = var.base_cidr
     vpc_region = var.vpc_region
     availability_zones = var.availability_zones
     subnet_count = var.subnet_count
