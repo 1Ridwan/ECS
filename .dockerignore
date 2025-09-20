@@ -3,5 +3,15 @@ node_modules
 .gitignore
 Dockerfile
 .dockerignore
-!release-packages
-!ci
+
+# build outputs & caches
+out
+dist
+coverage
+release*
+.npm
+.nyc_output
+
+# OS/editor junk
+.DS_Store
+
