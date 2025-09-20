@@ -38,10 +38,9 @@ jobs:
         env:
             base_cidr: ${{ env.TF_VARS_BASE_CIDR }}
             vpc_region: ${{ env.TF_VARS_VPC_REGION }}
-            subnet_count: ${{ env.TF_VARS_SUBNET_COUNT }}
         run: |
-          terraform plan -var="base_cidr=${{ env.TF_VARS_BASE_CIDR }}" -var="vpc_region==${{ env.TF_VARS_VPC_REGION }}" -var="subnet_count=${{ env.TF_VARS_SUBNET_COUNT }}" -no-color -input=false
-        continue-on-error: true
+          terraform plan -var="vpc_region==${{ env.TF_VARS_VPC_REGION }}" -var="subnet_count=${{ env.TF_VARS_SUBNET_COUNT }}" -no-color -input=false
+        continue-on-error: false
 
       # Deploy terraform changes
       #- name: Terraform Apply

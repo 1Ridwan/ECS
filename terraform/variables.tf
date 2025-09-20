@@ -9,5 +9,6 @@ variable "availability_zones" {
 
 variable "subnet_count" {
   type = number
+  default = 4
   description = "number of subnets in my VPC"
 }
