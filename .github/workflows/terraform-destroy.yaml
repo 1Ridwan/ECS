@@ -50,6 +50,3 @@ jobs:
           -target=module.sg \
           -target=module.vpc
         # (omit -target=module.ecr) to preserve outside of terraform
-
-
-        run: terraform destroy -auto-approve
