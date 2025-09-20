@@ -8,28 +8,26 @@ on:
     types: 
       - completed
 
-jobs:
-  on-success:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-      - run: echo 'The Terraform Plan workflow passed'
-
 # TODO: make these values not readable, use secrets
 env:
   # S3 bucket for the Terraform state
   BUCKET_TF_STATE: "terraform-state-ridwan-ecs" #${{ secrets.BUCKET_TF_STATE}}
 
-  AWS_REGION: "eu-west-2"                  # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: "main-ecr"          # set this to your Amazon ECR repository name
-  ECS_SERVICE: "web-app"                # set this to your Amazon ECS service name
-  ECS_CLUSTER: "ecs-main"                # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .aws/task-definision.json # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: "app-container"          # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition 
+  AWS_REGION: "eu-west-2"
+  ECR_REPOSITORY: "main-ecr"
+  ECS_SERVICE: "web-app"
+  ECS_CLUSTER: "ecs-main"
+  ECS_TASK_DEFINITION: .aws/task-definision.json # path to Amazon ECS task definition
+  CONTAINER_NAME: "app-container"
 
 jobs:
+  on-success:
+    name: Check if Terraform plan was successful
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo 'The Terraform Plan workflow passed'
+
   terraform:
     name: Terraform Apply
     runs-on: ubuntu-latest
