@@ -1,7 +1,7 @@
 # create vpc
 
 resource "aws_vpc" "main" {
-  cidr_block       = var.vpc_cidr
+  cidr_block       = var.base_cidr
   region = var.vpc_region
   tags = {
     Name = "main"
