@@ -3,3 +3,5 @@ node_modules
 .gitignore
 Dockerfile
 .dockerignore
+!release-packages
+!ci
