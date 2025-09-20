@@ -24,7 +24,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "set" {
   count             = var.subnet_count
   vpc_id           = aws_vpc.main.id
-  cidr_block       = cidrsubnet(var.vpc_cidr, 2, count.index)
+  cidr_block       = cidrsubnet(var.base_cidr, 2, count.index)
   availability_zone = var.availability_zones[count.index]
 
   tags = {
