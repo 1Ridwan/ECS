@@ -72,7 +72,7 @@ output "ecr_name" {
 }
 
 output "ecr_image_digest" {
-    value = module.ecr_image_digest
+    value = module.ecr.ecr_image_digest
 }
 
 

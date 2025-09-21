@@ -9,7 +9,7 @@ resource "aws_ecr_repository" "main" {
 
 data "aws_ecr_image" "app" {
   repository_name = aws_ecr_repository.main.name
-  image_tag = var.image_tag
+  image_tag = "latest"
 }
 
 resource "aws_ecr_lifecycle_policy" "my_policy" {

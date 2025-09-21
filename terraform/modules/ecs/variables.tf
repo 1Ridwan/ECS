@@ -11,3 +11,5 @@ variable "ecr_repo_url" {
 }
 
 variable "ecr_name" { type = string }
+
+variable "ecr_image_digest" { type = string }
