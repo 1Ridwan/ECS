@@ -12,7 +12,7 @@ resource "aws_ecs_service" "main" {
   load_balancer {
     target_group_arn = var.target_group_arn
     container_name   = "vscode-container" # to be updated with the container name
-    container_port   = 8080
+    container_port   = 3001
   }
 
    network_configuration {
@@ -43,21 +43,11 @@ container_definitions = jsonencode([
       image = "${var.ecr_repo_url}@${var.ecr_image_digest}"
       portMappings = [
         {
-          containerPort = 8080
+          containerPort = 3001
         }
-      ],
-      secrets = [
-      { 
-        name = "PASSWORD"
-        valueFrom = data.aws_secretsmanager_secret.code_server_password.arn }
       ]
     }
   ])
-
-}
-
-data "aws_secretsmanager_secret" "code_server_password" {
-  name = "code_server_password"
 }
 
 # TODO: move these to iam module

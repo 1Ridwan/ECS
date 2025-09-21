@@ -53,9 +53,9 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_from_alb" {
 resource "aws_vpc_security_group_ingress_rule" "allow_container_port_from_alb" {
   security_group_id = aws_security_group.allow_http_traffic_from_alb.id
   referenced_security_group_id = aws_security_group.allow_http.id
-  from_port         = 8080
+  from_port         = 3001
   ip_protocol       = "tcp"
-  to_port           = 8080
+  to_port           = 3001
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ecs" {
