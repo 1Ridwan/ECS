@@ -25,6 +25,7 @@ RUN mkdir -p /app/data \
     /tmp/nginx/uwsgi_temp /tmp/nginx/scgi_temp \
  && chmod -R 755 /app /run/nginx /tmp/nginx
 
+
 # Copy Nginx config and start script
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY start.sh /start.sh

@@ -1,8 +1,10 @@
 #!/bin/sh
 set -e
 
-# Start Node app in background on 3001
-node /app/server/server.js &
+# ensure data dir exists and is writable
+mkdir -p /app/data
+chmod 777 /app/data
 
-# Start Nginx in foreground
-exec nginx -g 'daemon off;'
+# start node (background) then nginx in foreground
+node /app/server/server.js &
+NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx nginx -g 'daemon off;'
