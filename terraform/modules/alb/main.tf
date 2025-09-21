@@ -8,6 +8,8 @@ resource "aws_lb" "main" {
   subnets = var.public_subnet_ids
   enable_deletion_protection = false
 
+  idle_timeout = 300
+
   tags = {
     name = "main"
   }
@@ -18,15 +20,15 @@ resource "aws_lb" "main" {
 
 resource "aws_lb_target_group" "ecs" {
   name     = "alb-target-group"
-  port     = 3001
+  port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc_id
   target_type = "ip"
 
   health_check {
     protocol            = "HTTP"
-    path                = "/healthz"      # must return 200–399
-    matcher             = "200-399"
+    path                = "/healthz"
+    matcher             = "200"
     interval            = 15
     timeout             = 5
     healthy_threshold   = 2

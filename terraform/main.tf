@@ -45,6 +45,7 @@ module "ecs" {
     target_group_arn = module.alb.target_group_arn
     ecr_name = module.ecr.ecr_name
     ecr_image_digest = module.ecr.ecr_image_digest
+    vpc_region = var.vpc_region
     
 }
 

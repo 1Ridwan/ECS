@@ -31,6 +31,7 @@ COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 ENV NODE_ENV=production
+ENV PORT=80
 EXPOSE 80
 
 # Run under dumb-init to forward signals properly

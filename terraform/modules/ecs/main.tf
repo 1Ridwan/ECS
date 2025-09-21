@@ -11,8 +11,8 @@ resource "aws_ecs_service" "main" {
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "vscode-container" # to be updated with the container name
-    container_port   = 3001
+    container_name   = "kuma" # to be updated with the container name
+    container_port   = 80
   }
 
    network_configuration {
@@ -23,32 +23,54 @@ resource "aws_ecs_service" "main" {
 }
 
 resource "aws_ecs_task_definition" "app_task" {
-  family                   = "main"
+  family                   = "kuma"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn = aws_iam_role.ecs_task_execution_role.arn
-
   network_mode             = "awsvpc"
-  cpu                      = 1024
-  memory                   = 2048
+  cpu                      = 512
+  memory                   = 1024
 
-  runtime_platform {
-    operating_system_family = "LINUX"
-    cpu_architecture        = "X86_64"
-  } 
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn      = aws_iam_role.ecs_task_execution_role.arn
 
 container_definitions = jsonencode([
-    {
-      name      = "vscode-container"
-      image = "${var.ecr_repo_url}@${var.ecr_image_digest}"
-      portMappings = [
-        {
-          containerPort = 3001
-        }
-      ]
+  {
+    name      = "kuma"
+    image     = "${var.ecr_repo_url}@${var.ecr_image_digest}"
+    essential = true
+
+    portMappings = [
+      {
+        containerPort = 80
+        protocol      = "tcp"
+      }
+    ]
+
+    environment = [
+      { name = "NODE_ENV",          value = "production" },
+      { name = "UPTIME_KUMA_HOST",  value = "127.0.0.1" },
+      { name = "UPTIME_KUMA_PORT",  value = "3001" }
+    ]
+
+    logConfiguration = {
+      logDriver = "awslogs",
+      options = {
+        awslogs-group         = "/ecs/kuma"
+        awslogs-region        = var.vpc_region
+        awslogs-stream-prefix = "ecs"
+      }
     }
-  ])
+
+
+  }
+])
 }
+
+resource "aws_cloudwatch_log_group" "kuma" {
+  name              = "/ecs/kuma"
+  retention_in_days = 14
+}
+
+
 
 # TODO: move these to iam module
 

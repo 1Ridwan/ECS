@@ -14,3 +14,4 @@ variable "ecr_name" { type = string }
 
 variable "ecr_image_digest" { type = string }
 
+variable "vpc_region" { type = string }
