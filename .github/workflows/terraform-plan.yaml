@@ -1,9 +1,12 @@
 name: Terraform Plan
 
-# triggered on push to main branch
+# wait for deploy image pipeline to complete
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build Docker Image and Deploy to Amazon ECR and ECS"]
+    branches: [main]
+    types: [completed]
 
 jobs:
   terraform:
