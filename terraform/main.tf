@@ -44,6 +44,7 @@ module "ecs" {
     ecr_repo_url = module.ecr.ecr_repo_url
     target_group_arn = module.alb.target_group_arn
     ecr_name = module.ecr.ecr_name
+    value = module.ecr_image_digest
     
 }
 

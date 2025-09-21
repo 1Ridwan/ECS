@@ -37,13 +37,10 @@ resource "aws_ecs_task_definition" "app_task" {
     cpu_architecture        = "X86_64"
   } 
 
-
-#     #"image": "${var.ecr_repo_uri}/${var.ecr_name}:main-image"
-
 container_definitions = jsonencode([
     {
       name      = "vscode-container"
-      image     = "${(var.ecr_repo_url)}:latest"
+      image = "${var.ecr_repo_url}@${var.ecr_image_digest}"
       portMappings = [
         {
           containerPort = 8080

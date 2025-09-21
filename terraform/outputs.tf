@@ -71,6 +71,10 @@ output "ecr_name" {
     value = module.ecr.ecr_name 
 }
 
+output "ecr_image_digest" {
+    value = module.ecr_image_digest
+}
+
 
 # ecs module outputs
 

@@ -13,3 +13,7 @@ output "ecr_registry_id" {
 output "ecr_name" {
     value = aws_ecr_repository.main.name
 }
+
+output "ecr_image_digest" {
+    value = data.aws_ecr_image.app.image_digest
+}

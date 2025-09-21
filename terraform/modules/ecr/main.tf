@@ -7,6 +7,11 @@ resource "aws_ecr_repository" "main" {
   }
 }
 
+data "aws_ecr_image" "app" {
+  repository_name = aws_ecr_repository.main.name
+  image_tag = var.image_tag
+}
+
 resource "aws_ecr_lifecycle_policy" "my_policy" {
   repository = aws_ecr_repository.main.name
 
