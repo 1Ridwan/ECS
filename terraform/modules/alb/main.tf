@@ -24,12 +24,14 @@ resource "aws_lb_target_group" "ecs" {
   target_type = "ip"
 
   health_check {
-    healthy_threshold = "2"
-    interval = "30"
-    path = "/healthz"
-    port = "8080"
-    protocol = "HTTP"
-
+    protocol            = "HTTP"
+    path                = "/healthz"      # must return 200–399
+    matcher             = "200-399"
+    interval            = 15
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    port                = "traffic-port"  # use TG port; no need to hardcode 8080
   }
 }
 
@@ -39,7 +41,7 @@ resource "aws_lb_listener" "front_end_https" {
   load_balancer_arn = aws_lb.main.arn
   port              = "443"
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
   certificate_arn   = var.certificate_arn
 
   default_action {

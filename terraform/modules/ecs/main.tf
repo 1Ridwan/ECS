@@ -44,14 +44,21 @@ container_definitions = jsonencode([
       portMappings = [
         {
           containerPort = 8080
-          hostPort      = 8080
         }
+      ],
+      secrets = [
+      { 
+        name = "PASSWORD"
+        valueFrom = data.aws_secretsmanager_secret.code_server_password.arn }
       ]
     }
   ])
 
 }
 
+data "aws_secretsmanager_secret" "code_server_password" {
+  name = "code_server_password"
+}
 
 # TODO: move these to iam module
 
