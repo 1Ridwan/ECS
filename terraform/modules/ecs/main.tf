@@ -11,8 +11,8 @@ resource "aws_ecs_service" "main" {
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "kuma" # to be updated with the container name
-    container_port   = 80
+    container_name   = "shiori" # to be updated with the container name
+    container_port   = 8080
   }
 
    network_configuration {
@@ -34,27 +34,22 @@ resource "aws_ecs_task_definition" "app_task" {
 
 container_definitions = jsonencode([
   {
-    name      = "kuma"
+    name      = "shiori"
     image     = "${var.ecr_repo_url}@${var.ecr_image_digest}"
     essential = true
 
     portMappings = [
       {
-        containerPort = 80
+        containerPort = 8080
+        hostPort = 8080
         protocol      = "tcp"
       }
-    ]
-
-    environment = [
-      { name = "NODE_ENV",          value = "production" },
-      { name = "UPTIME_KUMA_HOST",  value = "127.0.0.1" },
-      { name = "UPTIME_KUMA_PORT",  value = "3001" }
     ]
 
     logConfiguration = {
       logDriver = "awslogs",
       options = {
-        awslogs-group         = "/ecs/kuma"
+        awslogs-group         = "/ecs/shiori"
         awslogs-region        = var.vpc_region
         awslogs-stream-prefix = "ecs"
       }
@@ -65,8 +60,8 @@ container_definitions = jsonencode([
 ])
 }
 
-resource "aws_cloudwatch_log_group" "kuma" {
-  name              = "/ecs/kuma"
+resource "aws_cloudwatch_log_group" "shiori" {
+  name              = "/ecs/shiori"
   retention_in_days = 14
 }
 

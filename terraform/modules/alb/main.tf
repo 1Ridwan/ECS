@@ -20,20 +20,14 @@ resource "aws_lb" "main" {
 
 resource "aws_lb_target_group" "ecs" {
   name     = "alb-target-group"
-  port     = 80
+  port     = 8080
   protocol = "HTTP"
   vpc_id   = var.vpc_id
   target_type = "ip"
 
   health_check {
-    protocol            = "HTTP"
-    path                = "/healthz"
-    matcher             = "200"
-    interval            = 15
-    timeout             = 5
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    port                = "traffic-port"  # use TG port; no need to hardcode 8080
+    path                = "/"
+    matcher             = "200-399"
   }
 }
 

@@ -1,40 +1,41 @@
-node_modules
+# Exclude IDE
+.vscode/
+.idea/
+
+# Exclude config file
+*.toml
+
+# Exclude executable file
+/shiori*
+
+# Exclude development data
+/dev-data*
+
+# Tests
+/coverage.*
+e2e-report.html
+
+# Dist files
+/dist
+
+# macOS trash files
 .DS_Store
-dist
-dist-ssr
-*.local
-.idea
 
-/data
-!/data/.gitkeep
-/data*
-.vscode
+# frontend
+node_modules
 
-/private
-/out
-/tmp
-.env
+# golang
+go.work*
 
-/extra/healthcheck.exe
-/extra/healthcheck
-/extra/healthcheck-armv7
+# workaround for buildx using podman
+type=docker
 
-extra/exe-builder/bin
-extra/exe-builder/obj
-
-.vs
-.vscode
+# Docs
+docs/.venv
+build/docs
 
 
-# Code packages itself here.
-/lib/vscode-reh-web-*
-
-# Failed e2e test videos are saved here
-test/test-results
-
-# Quilt's internal data.
-/.pc
-/patches/*.diff~
+## -------- terraform ---------- ##
 
 
 terraform/*.terraform.*
