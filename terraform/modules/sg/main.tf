@@ -22,6 +22,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_https" {
   from_port         = 443
   ip_protocol       = "tcp"
   to_port           = 443
+  description = "Allow all incoming HTTPS traffic"
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic" {
@@ -29,7 +30,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic" {
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
 
-  description = "Allow all incoming HTTPS traffic"
+  description = "Allow all outgoing traffic"
 }
 
 # security group for ECS service must allow all traffic from alb on port 8080
