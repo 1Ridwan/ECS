@@ -1,9 +1,16 @@
 # Shiori on AWS ECS Fargate
 
 ## Overview
+
+**Shiori**
+
 This project deploys [Shiori](https://github.com/go-shiori/shiori) on AWS ECS Fargate using a highly available architecture across two availability zones.
 
 Shiori is a bookmark manager written in Go that provides bookmark management in a simple and easy to use web interface.
+
+**Deployment**
+
+The deployment leverages public and private subnets, an application load balancer, and modular Terraform infrastructure-as-code. Security and compliance best practices are applied throughout the stack.
 
 ## Project Structure
 
@@ -72,18 +79,26 @@ The diagram below illustrates the architecture of this deployment.
 - **CloudWatch** collects and stores ECS task logs for observability.  
 
 ### Architecture Features
+### Architecture Features
 
-| Feature                                | Description                                                                                  |
-|----------------------------------------|----------------------------------------------------------------------------------------------|
-| **High Availability**                  | ECS Fargate tasks deployed across two availability zones for resilience and fault tolerance. |
-| **Private Networking**                  | Tasks run in private subnets with outbound internet access via NAT Gateway.                  |
-| **Load Balancing**                      | Application Load Balancer with HTTP → HTTPS redirection and TLS termination.                 |
-| **Web Application Firewall (WAFv2)**    | AWS Managed Core Rule Set protects against SQL injection, XSS, HTTP floods, and probes.      |
-| **Infrastructure as Code**              | Modularised Terraform setup with DRY principles and remote backend for state management.     |
-| **CI/CD Integration**                   | GitHub Actions pipelines for build, scan, and deployment with Checkov and Trivy.             |
-| **Logging and Monitoring**              | ECS task logs captured in CloudWatch for troubleshooting and observability.                  |
-| **DNS and Certificates**                | Route 53 for custom domain and ACM with automated certificate validation.                    |
-| **Security Best Practices**             | Security groups restrict traffic flow; IAM roles use least privilege policies.               |
+| AWS Resource / Tool                  | Purpose                                                                 |
+|--------------------------------------|-------------------------------------------------------------------------|
+| **Amazon ECS (Fargate)**             | Runs Shiori containers in a serverless, managed compute environment.    |
+| **Amazon ECR**                       | Stores and manages Docker images built by the CI/CD pipeline.           |
+| **Application Load Balancer (ALB)**  | Distributes traffic across ECS tasks; handles HTTP to HTTPS redirection.|
+| **AWS WAFv2**                        | Protects ALB with AWS Managed Core Rule Set against common web exploits.|
+| **Amazon VPC**                       | Provides isolated networking environment with public and private subnets.|
+| **NAT Gateway**                      | Allows ECS tasks in private subnets to access the internet securely.    |
+| **Amazon Route 53**                  | Manages DNS records for the custom domain (ridwanprojects.com).         |
+| **AWS Certificate Manager (ACM)**    | Issues and manages TLS certificates with automated validation.          |
+| **Amazon CloudWatch**                | Collects ECS task logs and provides monitoring and metrics.              |
+| **AWS IAM**                          | Manages roles and policies following least privilege principle.         |
+| **AWS S3 (Terraform Backend)**       | Stores Terraform state file with native state locking.                  |
+| **GitHub Actions**                   | Automates build, scanning, and deployment pipelines.                    |
+| **Docker**                           | Builds and packages Shiori container images for deployment.             |
+| **Checkov**                          | Scans Terraform code for security and compliance issues.                |
+| **Trivy**                            | Scans container images for vulnerabilities before deployment.           |
+| **Terraform**                        | Infrastructure as Code used to provision and manage AWS resources.      |
 
 ## Security
 - **Security groups** enforce least privilege:
