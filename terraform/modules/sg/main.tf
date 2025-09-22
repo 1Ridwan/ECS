@@ -12,6 +12,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
+
+  description = "Allow all incoming HTTP traffic"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_https" {
@@ -26,6 +28,8 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic" {
   security_group_id = aws_security_group.allow_http.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
+
+  description = "Allow all incoming HTTPS traffic"
 }
 
 # security group for ECS service must allow all traffic from alb on port 8080
@@ -42,6 +46,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_container_port_from_alb" {
   from_port         = 8080
   ip_protocol       = "tcp"
   to_port           = 8080
+
+  description = "Allow all incoming traffic on port 8080"
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ecs" {
@@ -49,4 +55,11 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ecs" {
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
   description = "Allow all egress so ECS tasks can reach internet"
+}
+
+# checkov suggestion to adjust default sg for vpc
+# denies all egress and ingress traffic
+
+resource "aws_default_security_group" "default" {
+  vpc_id = var.vpc_id
 }

@@ -1,6 +1,6 @@
 resource "aws_ecs_cluster" "main" {
   name = "ecs-cluster"
-  
+
   setting {
     name = "containerInsights"
     value = "enabled"
@@ -43,6 +43,7 @@ container_definitions = jsonencode([
     name      = "shiori"
     image     = "${var.ecr_repo_url}@${var.ecr_image_digest}"
     essential = true
+    readonlyRootFilesystem = true
 
     portMappings = [
       {
@@ -66,5 +67,5 @@ container_definitions = jsonencode([
 
 resource "aws_cloudwatch_log_group" "shiori" {
   name              = "/ecs/shiori"
-  retention_in_days = 7
+  retention_in_days = 365
 }

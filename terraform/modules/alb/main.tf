@@ -9,6 +9,7 @@ resource "aws_lb" "main" {
   enable_deletion_protection = true
   drop_invalid_header_fields = true
   idle_timeout = 300
+
 }
 
 # create target group for the alb
