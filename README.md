@@ -1,21 +1,100 @@
 # Shiori on AWS ECS Fargate
 
 ## Overview
-This project deploys [Shiori](https://github.com/go-shiori/shiori) on AWS ECS Fargate using a highly available architecture across two availability zones. The deployment leverages public and private subnets, an application load balancer, and modular Terraform infrastructure-as-code. Security and compliance best practices are applied throughout the stack.
+This project deploys [Shiori](https://github.com/go-shiori/shiori) on AWS ECS Fargate using a highly available architecture across two availability zones.
+
+Shiori is a bookmark manager written in Go that provides bookmark management in a simple and easy to use web interface.
+
+## Project Structure
+.
+├── app/
+├── README.md
+└── terraform
+    ├── modules
+        ├── acm
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+        ├── alb
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+        ├── ecr
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+        ├── ecs
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+        ├── iam
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+        ├── route53
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+        ├── routes
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+        ├── sg
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+        ├── vpc
+           ├── main.tf
+           ├── outputs.tf
+           ├── variables.tf
+    ├── backend.tf
+    ├── main.tf
+    ├── outputs.tf
+    ├── provider.tf
+    ├── terraform.tfvars
+    └── variables.tf
+## Architecture Diagram
+The diagram below illustrates the high-level architecture of this deployment.  
+
+![Architecture Diagram](ecs-architecture-diagram.jpeg)
 
 ## Architecture
 - **ECS Fargate** cluster with tasks running in private subnets.  
 - **Public subnets** host the Application Load Balancer and NAT Gateways.  
 - **NAT Gateway** provides outbound internet access for ECS tasks to pull images from Amazon ECR and communicate with external services.  
 - **Application Load Balancer (ALB)** terminates TLS and routes traffic to ECS tasks. HTTP requests are redirected to HTTPS.  
-- **Amazon Route 53** manages DNS records for custom domain ridwanprojects.con.  
+- **Amazon Route 53** manages DNS records for custom domain ridwanprojects.com.  
 - **AWS Certificate Manager (ACM)** provides SSL/TLS certificates with automated validation.  
 - **CloudWatch** collects and stores ECS task logs for observability.  
 
-## Architecture Diagram
-The diagram below illustrates the high-level architecture of this deployment.  
+### Architecture Features
 
-![Architecture Diagram](ecs-architecture-diagram.jpeg)
+| Feature                                | Description                                                                                  |
+|----------------------------------------|----------------------------------------------------------------------------------------------|
+| **High Availability**                  | ECS Fargate tasks deployed across two availability zones for resilience and fault tolerance. |
+| **Private Networking**                  | Tasks run in private subnets with outbound internet access via NAT Gateway.                  |
+| **Load Balancing**                      | Application Load Balancer with HTTP → HTTPS redirection and TLS termination.                 |
+| **Web Application Firewall (WAFv2)**    | AWS Managed Core Rule Set protects against SQL injection, XSS, HTTP floods, and probes.      |
+| **Infrastructure as Code**              | Modularised Terraform setup with DRY principles and remote backend for state management.     |
+| **CI/CD Integration**                   | GitHub Actions pipelines for build, scan, and deployment with Checkov and Trivy.             |
+| **Logging and Monitoring**              | ECS task logs captured in CloudWatch for troubleshooting and observability.                  |
+| **DNS and Certificates**                | Route 53 for custom domain and ACM with automated certificate validation.                    |
+| **Security Best Practices**             | Security groups restrict traffic flow; IAM roles use least privilege policies.               |
+
+## Features
+
+| Feature                                | Description                                                                                  |
+|----------------------------------------|----------------------------------------------------------------------------------------------|
+| **High Availability**                  | ECS Fargate tasks deployed across two availability zones for resilience and fault tolerance. |
+| **Private Networking**                  | Tasks run in private subnets with outbound internet access via NAT Gateway.                  |
+| **Load Balancing**                      | Application Load Balancer with HTTP → HTTPS redirection and TLS termination.                 |
+| **Web Application Firewall (WAFv2)**    | AWS Managed Core Rule Set protects against SQL injection, XSS, HTTP floods, and probes.      |
+| **Infrastructure as Code**              | Modularised Terraform setup with DRY principles and remote backend for state management.     |
+| **CI/CD Integration**                   | GitHub Actions pipelines for build, scan, and deployment with Checkov and Trivy.             |
+| **Logging and Monitoring**              | ECS task logs captured in CloudWatch for troubleshooting and observability.                  |
+| **DNS and Certificates**                | Route 53 for custom domain and ACM with automated certificate validation.                    |
+| **Security Best Practices**             | Security groups restrict traffic flow; IAM roles use least privilege policies.               |
+
 
 ## Security
 - **Security groups** enforce least privilege:
