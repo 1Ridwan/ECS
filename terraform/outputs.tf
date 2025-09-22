@@ -93,3 +93,9 @@ output "certificate_arn" {
 output "certificate_dvos" {
     value = [module.acm.certificate_dvos]
 }
+
+# iam outputs
+
+output "ecs_task_execution_role_arn" {
+    value = module.iam.ecs_task_execution_role_arn
+}

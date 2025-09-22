@@ -1,11 +1,9 @@
+# security group for alb must allow all incoming http/https traffic
+
 resource "aws_security_group" "allow_http" {
   name        = "allow_http"
-  description = "Allow all incoming HTTP traffic"
+  description = "Allow all incoming HTTP and HTTPS traffic"
   vpc_id      = var.vpc_id
-
-  tags = {
-    Name = "allow_http"
-  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http" {
@@ -30,16 +28,12 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic" {
   ip_protocol       = "-1"
 }
 
-# security group for ECS service
+# security group for ECS service must allow all traffic from alb on port 8080
 
 resource "aws_security_group" "allow_http_traffic_from_alb" {
-  name        = "allow_http_from_alb"
-  description = "Allow all incoming HTTP traffic from ALB"
+  name        = "allow_traffic_from_alb"
+  description = "Allow incoming traffic from ALB"
   vpc_id      = var.vpc_id
-
-  tags = {
-    Name = "allow_http_from_alb"
-  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_container_port_from_alb" {

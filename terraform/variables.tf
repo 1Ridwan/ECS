@@ -21,3 +21,20 @@ variable "subnet_count" {
   default = 4
   description = "number of subnets to be created in the VPC"
 }
+
+variable "environment" {
+  type = string
+  default = "dev"
+}
+
+variable "apex_domain" {
+  type = string
+  default = "ridwanprojects.com"
+  description = "Hosted zone name for my apex domain"
+}
+
+variable "sub_domain" {
+  type = string
+  default = "tm.ridwanprojects.com"
+  description = "Hosted zone name for my sub domain"
+}

@@ -46,7 +46,7 @@ module "ecs" {
     ecr_name = module.ecr.ecr_name
     ecr_image_digest = module.ecr.ecr_image_digest
     vpc_region = var.vpc_region
-    
+    ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
 }
 
 module "route53" {
@@ -57,6 +57,12 @@ module "route53" {
 
 
 module "acm" {
-    source = "./modules/acm"
+    source = "./modules/acm"   
+    apex_domain = var.apex_domain
+    sub_domain = var.sub_domain
+}
+
+module "iam" {
+    source = "./modules/iam"
     
 }

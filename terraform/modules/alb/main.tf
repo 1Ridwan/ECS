@@ -2,21 +2,15 @@ resource "aws_lb" "main" {
   name               = "main-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = var.alb_sg # to be updated with correct list
+  security_groups    = var.alb_sg
   region = var.vpc_region
-
   subnets = var.public_subnet_ids
+  
   enable_deletion_protection = false
-
   idle_timeout = 300
-
-  tags = {
-    name = "main"
-  }
 }
 
-
-# target group for the alb
+# create target group for the alb
 
 resource "aws_lb_target_group" "ecs" {
   name     = "alb-target-group"
@@ -31,7 +25,7 @@ resource "aws_lb_target_group" "ecs" {
   }
 }
 
-# HTTPS listener
+# HTTPS listener forwards to ECS tasks in target group
 
 resource "aws_lb_listener" "front_end_https" {
   load_balancer_arn = aws_lb.main.arn
@@ -102,11 +96,6 @@ resource "aws_wafv2_web_acl" "main" {
     cloudwatch_metrics_enabled = true
     metric_name                = "webACLVisibilityConfig"
     sampled_requests_enabled   = true
-  }
-
-  tags = {
-    Environment = "Demo"
-    Name        = "webACL"
   }
 }
 

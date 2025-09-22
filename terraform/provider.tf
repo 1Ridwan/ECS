@@ -10,4 +10,12 @@ terraform {
 
 provider "aws" {
   region = var.vpc_region
+
+  default_tags {
+    tags = {
+      Project = "shiori-demo"
+      Environment = var.environment
+      ManagedBy = "terraform"
+    }
+  }
 }
