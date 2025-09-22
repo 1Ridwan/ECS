@@ -68,7 +68,6 @@ The deployment leverages public and private subnets, an application load balance
 The diagram below illustrates the architecture of this deployment.  
 
 ![Architecture Diagram](ecs-architecture-diagram.jpeg)
-
 #### Description:
 > - **ECS Fargate** cluster with tasks running in private subnets.  
 > - **Public subnets** host the Application Load Balancer and NAT Gateways.  
@@ -85,18 +84,22 @@ The diagram below illustrates the architecture of this deployment.
 | **Amazon ECR**                       | Stores and manages Docker images built by the CI/CD pipeline.           |
 | **Application Load Balancer (ALB)**  | Distributes traffic across ECS tasks; handles HTTP to HTTPS redirection.|
 | **AWS WAFv2**                        | Protects ALB with AWS Managed Core Rule Set against common web exploits.|
-| **Amazon VPC**                       | Provides isolated networking environment with public and private subnets.|
 | **NAT Gateway**                      | Allows ECS tasks in private subnets to access the internet securely.    |
 | **Amazon Route 53**                  | Manages DNS records for the custom domain (ridwanprojects.com).         |
 | **AWS Certificate Manager (ACM)**    | Issues and manages TLS certificates with automated validation.          |
 | **Amazon CloudWatch**                | Collects ECS task logs and provides monitoring and metrics.              |
 | **AWS IAM**                          | Manages roles and policies following least privilege principle.         |
 | **AWS S3 (Terraform Backend)**       | Stores Terraform state file with native state locking.                  |
+### Deployment Features
+
+| Deployment Tool                  | Purpose                                                                 |
+|--------------------------------------|-------------------------------------------------------------------------|
 | **GitHub Actions**                   | Automates build, scanning, and deployment pipelines.                    |
 | **Docker**                           | Builds and packages Shiori container images for deployment.             |
 | **Checkov**                          | Scans Terraform code for security and compliance issues.                |
-| **Trivy**                            | Scans container images for vulnerabilities before deployment.           |
+| **Trivy**                      x      | Scans container images for vulnerabilities before deployment.           |
 | **Terraform**                        | Infrastructure as Code used to provision and manage AWS resources.      |
+
 
 ## Security
 - **Security groups** enforce least privilege:
