@@ -63,4 +63,8 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ecs" {
 
 resource "aws_default_security_group" "default" {
   vpc_id = var.vpc_id
+
+  # Deny all inbound/outbound by making the rule sets empty
+  ingress = []
+  egress  = []
 }
