@@ -8,7 +8,6 @@ Shiori is a bookmark manager written in Go that provides bookmark management in 
 ## Project Structure
 
 ```text
-
 .
 ├── app/
 ├── README.md
@@ -56,6 +55,8 @@ Shiori is a bookmark manager written in Go that provides bookmark management in 
     ├── provider.tf
     ├── terraform.tfvars
     └── variables.tf
+```
+
 ## Architecture Diagram
 The diagram below illustrates the architecture of this deployment.  
 
