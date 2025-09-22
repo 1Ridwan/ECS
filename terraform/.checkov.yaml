@@ -11,6 +11,5 @@ skip-check:
   - CKV_AWS_192    # WAF Log4j protection (add KnownBadInputs rule group later)
   - CKV2_AWS_31    # WAF logging configuration (Firehose/CWL wiring pending)
   - CKV2_AWS_11    # VPC Flow Logs not enabled yet (S3/CWL + role needed)
-  - CKV2_AWS_12    # Default SG lockdown (manage aws_default_security_group later)
   - CKV2_AWS_76    # ALB requires WAF AMR for Log4j (follows from CKV_AWS_192)
 
