@@ -5,6 +5,10 @@ resource "aws_ecr_repository" "main" {
   image_scanning_configuration {
     scan_on_push = true
   }
+
+  encryption_configuration {
+    encryption_type = "KMS"
+  }
 }
 
 # pull the latest image from the repo main-ecr so we always
