@@ -6,7 +6,8 @@ resource "aws_lb" "main" {
   region = var.vpc_region
   subnets = var.public_subnet_ids
   
-  enable_deletion_protection = false
+  enable_deletion_protection = true
+  drop_invalid_header_fields = true
   idle_timeout = 300
 }
 
