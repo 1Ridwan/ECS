@@ -66,7 +66,7 @@ The deployment leverages public and private subnets, an application load balance
 ## Architecture Diagram
 The diagram below illustrates the architecture of this deployment.  
 
-![Architecture Diagram](./images/architecture-diagram.jpeg)
+![Architecture Diagram](./images/architecture-diagram.png)
 #### Description:
 > - **ECS Fargate** cluster with tasks running in private subnets.  
 > - **Public subnets** host the Application Load Balancer and NAT Gateways.  
