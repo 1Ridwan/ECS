@@ -6,6 +6,9 @@ This project deploys [Shiori](https://github.com/go-shiori/shiori) on AWS ECS Fa
 Shiori is a bookmark manager written in Go that provides bookmark management in a simple and easy to use web interface.
 
 ## Project Structure
+
+```text
+
 .
 ├── app/
 ├── README.md
@@ -54,7 +57,7 @@ Shiori is a bookmark manager written in Go that provides bookmark management in 
     ├── terraform.tfvars
     └── variables.tf
 ## Architecture Diagram
-The diagram below illustrates the high-level architecture of this deployment.  
+The diagram below illustrates the architecture of this deployment.  
 
 ![Architecture Diagram](ecs-architecture-diagram.jpeg)
 
@@ -80,21 +83,6 @@ The diagram below illustrates the high-level architecture of this deployment.
 | **Logging and Monitoring**              | ECS task logs captured in CloudWatch for troubleshooting and observability.                  |
 | **DNS and Certificates**                | Route 53 for custom domain and ACM with automated certificate validation.                    |
 | **Security Best Practices**             | Security groups restrict traffic flow; IAM roles use least privilege policies.               |
-
-## Features
-
-| Feature                                | Description                                                                                  |
-|----------------------------------------|----------------------------------------------------------------------------------------------|
-| **High Availability**                  | ECS Fargate tasks deployed across two availability zones for resilience and fault tolerance. |
-| **Private Networking**                  | Tasks run in private subnets with outbound internet access via NAT Gateway.                  |
-| **Load Balancing**                      | Application Load Balancer with HTTP → HTTPS redirection and TLS termination.                 |
-| **Web Application Firewall (WAFv2)**    | AWS Managed Core Rule Set protects against SQL injection, XSS, HTTP floods, and probes.      |
-| **Infrastructure as Code**              | Modularised Terraform setup with DRY principles and remote backend for state management.     |
-| **CI/CD Integration**                   | GitHub Actions pipelines for build, scan, and deployment with Checkov and Trivy.             |
-| **Logging and Monitoring**              | ECS task logs captured in CloudWatch for troubleshooting and observability.                  |
-| **DNS and Certificates**                | Route 53 for custom domain and ACM with automated certificate validation.                    |
-| **Security Best Practices**             | Security groups restrict traffic flow; IAM roles use least privilege policies.               |
-
 
 ## Security
 - **Security groups** enforce least privilege:
