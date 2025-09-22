@@ -8,16 +8,6 @@ resource "aws_vpc" "main" {
   }
 }
 
-# checkov suggestion to adjust default sg for vpc
-# denies all egress and ingress traffic
-
-resource "aws_default_security_group" "default" {
-  vpc_id = var.vpc_id
-
-  ingress = []
-  egress  = []
-}
-
 # create subnets
 
 resource "aws_subnet" "set" {
