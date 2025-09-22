@@ -57,13 +57,3 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ecs" {
   ip_protocol       = "-1"
   description = "Allow all egress so ECS tasks can reach internet"
 }
-
-# checkov suggestion to adjust default sg for vpc
-# denies all egress and ingress traffic
-
-resource "aws_default_security_group" "default" {
-  vpc_id = var.vpc_id
-
-  ingress = []
-  egress  = []
-}
