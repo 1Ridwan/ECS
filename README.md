@@ -69,16 +69,14 @@ The diagram below illustrates the architecture of this deployment.
 
 ![Architecture Diagram](ecs-architecture-diagram.jpeg)
 
-## Architecture
-- **ECS Fargate** cluster with tasks running in private subnets.  
-- **Public subnets** host the Application Load Balancer and NAT Gateways.  
-- **NAT Gateway** provides outbound internet access for ECS tasks to pull images from Amazon ECR and communicate with external services.  
-- **Application Load Balancer (ALB)** terminates TLS and routes traffic to ECS tasks. HTTP requests are redirected to HTTPS.  
-- **Amazon Route 53** manages DNS records for custom domain ridwanprojects.com.  
-- **AWS Certificate Manager (ACM)** provides SSL/TLS certificates with automated validation.  
-- **CloudWatch** collects and stores ECS task logs for observability.  
-
-### Architecture Features
+### Description:
+> - **ECS Fargate** cluster with tasks running in private subnets.  
+> - **Public subnets** host the Application Load Balancer and NAT Gateways.  
+> - **NAT Gateway** provides outbound internet access for ECS tasks to pull images from Amazon ECR and communicate with external services.  
+> - **Application Load Balancer (ALB)** terminates TLS and routes traffic to ECS tasks. HTTP requests are redirected to HTTPS.  
+> - **Amazon Route 53** manages DNS records for custom domain ridwanprojects.com.  
+> - **AWS Certificate Manager (ACM)** provides SSL/TLS certificates with automated validation.  
+> - **CloudWatch** collects and stores ECS task logs for observability.  
 ### Architecture Features
 
 | AWS Resource / Tool                  | Purpose                                                                 |
