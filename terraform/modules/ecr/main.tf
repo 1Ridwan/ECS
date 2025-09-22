@@ -1,25 +1,16 @@
 resource "aws_ecr_repository" "main" {
   name                 = "main-ecr"
-  image_tag_mutability = "IMMUTABLE"
+  image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
     scan_on_push = true
   }
-
-  encryption_configuration {
-    encryption_type = "KMS"
-  }
 }
-
-# pull the latest image from the repo main-ecr so we always
-# use the latest image in our ECS task definition
 
 data "aws_ecr_image" "app" {
   repository_name = aws_ecr_repository.main.name
   image_tag = "latest"
 }
-
-# delete all tagged images after 7 days
 
 resource "aws_ecr_lifecycle_policy" "my_policy" {
   repository = aws_ecr_repository.main.name
@@ -29,12 +20,12 @@ resource "aws_ecr_lifecycle_policy" "my_policy" {
       "rules": [
           {
               "rulePriority": 1,
-              "description": "Expire images older than 7 days",
+              "description": "Expire images older than 14 days",
               "selection": {
-                  "tagStatus": "tagged",
+                  "tagStatus": "untagged",
                   "countType": "sinceImagePushed",
                   "countUnit": "days",
-                  "countNumber": 7
+                  "countNumber": 14
               },
               "action": {
                   "type": "expire"

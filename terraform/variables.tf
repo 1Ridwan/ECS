@@ -38,3 +38,9 @@ variable "sub_domain" {
   default = "tm.ridwanprojects.com"
   description = "Hosted zone name for my sub domain"
 }
+
+variable "container_port" {
+    type = number
+    description = "the port for my container"
+    default = 8080
+}

@@ -6,7 +6,6 @@ resource "aws_lb" "main" {
   region = var.vpc_region
   subnets = var.public_subnet_ids
   
-  enable_deletion_protection = true
   drop_invalid_header_fields = true
   idle_timeout = 300
 
@@ -16,7 +15,7 @@ resource "aws_lb" "main" {
 
 resource "aws_lb_target_group" "ecs" {
   name     = "alb-target-group"
-  port     = 8080
+  port     = var.container_port
   protocol = "HTTP"
   vpc_id   = var.vpc_id
   target_type = "ip"

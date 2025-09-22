@@ -1,10 +1,5 @@
 resource "aws_ecs_cluster" "main" {
   name = "ecs-cluster"
-
-  setting {
-    name = "containerInsights"
-    value = "enabled"
-   }
 }
 
 resource "aws_ecs_service" "main" {
@@ -16,8 +11,8 @@ resource "aws_ecs_service" "main" {
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "shiori"
-    container_port   = 8080
+    container_name   = "shiori" # to be updated with the container name
+    container_port   = var.container_port
   }
 
    network_configuration {
@@ -25,7 +20,6 @@ resource "aws_ecs_service" "main" {
     security_groups = [var.ecs_service_sg_id]
     assign_public_ip = false
    }
-
 }
 
 resource "aws_ecs_task_definition" "app_task" {
@@ -36,18 +30,18 @@ resource "aws_ecs_task_definition" "app_task" {
   memory                   = 1024
 
   execution_role_arn = var.ecs_task_execution_role_arn
+  task_role_arn      = var.ecs_task_execution_role_arn
 
 container_definitions = jsonencode([
   {
     name      = "shiori"
     image     = "${var.ecr_repo_url}@${var.ecr_image_digest}"
     essential = true
-    readonlyRootFilesystem = true
 
     portMappings = [
       {
-        containerPort = 8080
-        hostPort = 8080
+        containerPort = var.container_port
+        hostPort = var.container_port
         protocol      = "tcp"
       }
     ]
@@ -66,5 +60,5 @@ container_definitions = jsonencode([
 
 resource "aws_cloudwatch_log_group" "shiori" {
   name              = "/ecs/shiori"
-  retention_in_days = 365
+  retention_in_days = 14
 }

@@ -14,12 +14,14 @@ module "alb" {
     certificate_arn = module.acm.certificate_arn
 
     public_subnet_ids = module.vpc.public_subnet_ids
+    container_port = var.container_port
 }
 
 module "sg" {
     source = "./modules/sg"
     vpc_id = module.vpc.vpc_id
     vpc_cidr_block = var.base_cidr
+    container_port = var.container_port
 }
 
 module "routes" {
@@ -47,6 +49,7 @@ module "ecs" {
     ecr_image_digest = module.ecr.ecr_image_digest
     vpc_region = var.vpc_region
     ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
+    container_port = var.container_port
 }
 
 module "acm" {

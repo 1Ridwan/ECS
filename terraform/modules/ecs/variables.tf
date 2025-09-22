@@ -17,3 +17,8 @@ variable "ecr_image_digest" { type = string }
 variable "vpc_region" { type = string }
 
 variable "ecs_task_execution_role_arn" { type = string }
+
+variable "container_port" {
+    type = number
+    description = "the port for my container"
+}

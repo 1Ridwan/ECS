@@ -6,12 +6,8 @@ data "aws_route53_zone" "primary" {
 
 # create hosted zone for subdomain, prevent destroy
 
-resource "aws_route53_zone" "tm" {
-  name = var.sub_domain
-
-  lifecycle {
-    prevent_destroy = true
-  }
+data "aws_route53_zone" "tm" {
+  name         = var.sub_domain
 }
 
 # ACM certificate that covers apex and tm

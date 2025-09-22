@@ -9,3 +9,8 @@ variable "certificate_arn" {
     type = string
     description = "arn of the TLS certificate created for my domain"
 }
+
+variable "container_port" {
+    type = number
+    description = "the port for my container"
+}
