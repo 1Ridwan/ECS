@@ -125,7 +125,7 @@ The diagram below illustrates the architecture of this deployment.
  
 ## Demo Video
 
-(https://cdn.loom.com/sessions/thumbnails/a4966ea3719d440e82a66c934d892400-with-play.gif)](https://www.loom.com/share/a4966ea3719d440e82a66c934d892400?sid=abd2a6d2-b6f3-4e46-9657-eaaa7547cb67)
+(https://www.loom.com/share/a4966ea3719d440e82a66c934d892400?sid=abd2a6d2-b6f3-4e46-9657-eaaa7547cb67)
 
 ## Screenshots
 ![VPC Resources](./images/1.png)
