@@ -90,14 +90,14 @@ The diagram below illustrates the architecture of this deployment.
 | **Amazon CloudWatch**                | Collects ECS task logs and provides monitoring and metrics.              |
 | **AWS IAM**                          | Manages roles and policies following least privilege principle.         |
 | **AWS S3 (Terraform Backend)**       | Stores Terraform state file with native state locking.                  |
-### Deployment Features
+### Deployment Tools
 
 | Deployment Tool                  | Purpose                                                                 |
 |--------------------------------------|-------------------------------------------------------------------------|
 | **GitHub Actions**                   | Automates build, scanning, and deployment pipelines.                    |
 | **Docker**                           | Builds and packages Shiori container images for deployment.             |
 | **Checkov**                          | Scans Terraform code for security and compliance issues.                |
-| **Trivy**                      x      | Scans container images for vulnerabilities before deployment.           |
+| **Trivy**                            | Scans container images for vulnerabilities before deployment.           |
 | **Terraform**                        | Infrastructure as Code used to provision and manage AWS resources.      |
 
 
@@ -117,7 +117,7 @@ The diagram below illustrates the architecture of this deployment.
 - **Terraform** provisions AWS resources.  
 - Modularised design follows DRY principles for maintainability and reusability.  
 - Remote backend uses S3 for state storage with the new native state locking feature (no DynamoDB required).  
-- Terraform import used to import ECR repository and hosted zone resources
+- Terraform import used to import existing ECR repository and hosted zone resources
 
 ## CI/CD
 - **GitHub Actions** automates build, security scanning, and deployment.  
@@ -125,14 +125,36 @@ The diagram below illustrates the architecture of this deployment.
 - **Checkov** scans Terraform configurations for misconfigurations.  
 - **Trivy** scans container images for vulnerabilities.  
 - Pipelines ensure that only secure and compliant builds are deployed.  
+ 
+## Project Demo
 
-## Deployment Steps
-1. Clone the repository.  
-2. Configure AWS credentials with appropriate IAM permissions.  
-3. Build and push Shiori Docker image to ECR using GitHub Actions pipeline.  
-4. Run Terraform to provision networking, ECS, ALB, Route 53, ACM, WAF, and supporting resources.  
-5. ECS Service deploys the Shiori containers in private subnets.  
-6. Access Shiori securely through the Route 53 domain with HTTPS enabled.  
+## Screenshots
+VPC resources
+ALB resource map
+ECS cluster
+ECS service
+Each pipeline (4 in total)
+Website with subdomain https://tm.ridwanprojects.com
 
-## Monitoring
-- ECS task logs are available in CloudWatch.  
+## Local Setup
+1. Clone the repository and move into the app directory.
+```text
+git clone # put rest of git command here
+cd app
+```  
+2. Use Docker to build the image and then run the container
+```text
+docker build -t shiori .
+docker run shiori -p 8080:8080 # put rest of the code here
+cd app
+```  
+Shiori is now accessible at http://localhost:8080
+
+## Why This Project?
+
+This project was developed to replicate a real-world cloud architecture deployment using AWS services. It utilises many tools and DevOps principles to confirm my understanding of the full end-to-end process, from containerising the app to automating deployment to cloud infrastructure.
+
+This project was designed to challenge my understanding of how different AWS resources communicate through networking, and how security best principles tie into this.
+## License
+
+MIT License - feel free to use, fork, and deploy!
