@@ -96,7 +96,6 @@ The diagram below illustrates the architecture of this deployment.
 | **GitHub Actions**                   | Automates build, scanning, and deployment pipelines.                    |
 | **Docker**                           | Builds and packages Shiori container images for deployment.             |
 | **Checkov**                          | Scans Terraform code for security and compliance issues.                |
-| **Trivy**                            | Scans container images for vulnerabilities before deployment.           |
 | **Terraform**                        | Infrastructure as Code used to provision and manage AWS resources.      |
 
 
@@ -122,30 +121,32 @@ The diagram below illustrates the architecture of this deployment.
 - **GitHub Actions** automates build, security scanning, and deployment.  
 - **Docker** builds container images and pushes them to Amazon ECR.  
 - **Checkov** scans Terraform configurations for misconfigurations.  
-- **Trivy** scans container images for vulnerabilities.  
 - Pipelines ensure that only secure and compliant builds are deployed.  
  
 ## Project Demo
-
+https://www.loom.com/share/a4966ea3719d440e82a66c934d892400?sid=abd2a6d2-b6f3-4e46-9657-eaaa7547cb67
 ## Screenshots
-VPC resources
-ALB resource map
-ECS cluster
-ECS service
-Each pipeline (4 in total)
-Website with subdomain https://tm.ridwanprojects.com
+![VPC Resources](./images/1.png)
+![ALB Resource Map](./images/2.png)
+![ECS Cluster](./images/3.png)
+![ACM Certificate](./images/4.png)
+![Website 1](./images/5.png)
+![Website 2](./images/6.png)
+![Deploy to ECS](./images/7.png)
+![Terraform Plan](./images/8.png)
+![Terraform Apply](./images/9.png)
+![Terraform Destroy](./images/10.png)
 
 ## Local Setup
 1. Clone the repository and move into the app directory.
 ```text
-git clone # put rest of git command here
-cd app
+git clone https://github.com/1Ridwan/ECS.git
+cd ECS
 ```  
 2. Use Docker to build the image and then run the container
 ```text
-docker build -t shiori .
-docker run shiori -p 8080:8080 # put rest of the code here
-cd app
+docker build -t ecs-app:local .
+docker run -d --rm --name ecs-app -p 8080:8080 ecs-app:local
 ```  
 Shiori is now accessible at http://localhost:8080
 
