@@ -69,7 +69,7 @@ The diagram below illustrates the architecture of this deployment.
 
 ![Architecture Diagram](ecs-architecture-diagram.jpeg)
 
-### Description:
+#### Description:
 > - **ECS Fargate** cluster with tasks running in private subnets.  
 > - **Public subnets** host the Application Load Balancer and NAT Gateways.  
 > - **NAT Gateway** provides outbound internet access for ECS tasks to pull images from Amazon ECR and communicate with external services.  
