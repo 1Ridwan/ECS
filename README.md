@@ -46,7 +46,6 @@ The deployment leverages public and private subnets, an application load balance
            ├── variables.tf
         ├── routes
            ├── main.tf
-           ├── outputs.tf
            ├── variables.tf
         ├── sg
            ├── main.tf
@@ -152,9 +151,16 @@ Shiori is now accessible at http://localhost:8080
 
 ## Why This Project?
 
-This project was developed to replicate a real-world cloud architecture deployment using AWS services. It utilises many tools and DevOps principles to confirm my understanding of the full end-to-end process, from containerising the app to automating deployment to cloud infrastructure.
+This project was developed to replicate a real-world cloud architecture deployment using AWS services. It utilises many DevOps tools and principles to confirm my understanding of the full end-to-end process, from containerising the app to automating deployment of cloud infrastructure.
 
 This project was designed to challenge my understanding of how different AWS resources communicate through networking, and how security best principles tie into this.
+
+I have outlined below the main lessons from this project that have been affirmed through my debugging sessions:
+- **NAT gateway required for private subnets to reach internet** my ECS tasks were unable to retrieve the container image from my ECR repo because there was no NAT GW for the ECS tasks to reach the ECR pubic url. (Note: VPC endpoints can be used instead of NAT GW)
+- **ALB target group requires port of the container** ALB target group failed health checks because the port used for the health check wasn't the same as the container port.
+- **Need correct working directory in pipeline** terraform pipelines failed because after checking out the code I didn't move into the terraform directory where my terraform provider block and code existed.
+- **ECS agent needs IAM role** ECS tasks unable to retrieve image from ECR due to no permissions applied
+
 ## License
 
 MIT License - feel free to use, fork, and deploy!

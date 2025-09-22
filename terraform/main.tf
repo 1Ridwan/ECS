@@ -49,17 +49,12 @@ module "ecs" {
     ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
 }
 
-module "route53" {
-    source = "./modules/route53"
-    alb_dns_name = module.alb.alb_dns_name
-    alb_zone_id = module.alb.alb_zone_id
-}
-
-
 module "acm" {
     source = "./modules/acm"   
     apex_domain = var.apex_domain
     sub_domain = var.sub_domain
+    alb_dns_name = module.alb.alb_dns_name
+    alb_zone_id = module.alb.alb_zone_id
 }
 
 module "iam" {
